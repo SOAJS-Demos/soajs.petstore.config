@@ -1,0 +1,26 @@
+{
+  "name": "soajs.petstore.config",
+  "description": "",
+  "version": "0.0.1",
+  "author": {
+    "name": "soajs team",
+    "email": "team@soajs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:SOAJS-demo/soajs.petstore.config.git"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "async": "^2.4.0",
+    "lodash": "4.17.4",
+    "stdio": "*"
+  }
+}

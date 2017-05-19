@@ -1,0 +1,11 @@
+{
+    "setup": {
+        "dev": {
+            "nginx": {
+                "sites-enabled": {
+                    "path": "nginx/"
+                }
+            }
+        }
+    }
+}
