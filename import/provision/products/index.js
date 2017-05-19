@@ -24,7 +24,7 @@ var testProduct = {
 						},
 						"delete": {
 							"apis": {
-								"/cart/:id": {"access": false},
+								"/cart/:id": {"access": false}
 							}
 						},
 						"post": {
@@ -44,7 +44,7 @@ var testProduct = {
 						"get": {
 							"apis": {
 								"/pet/:id": {"access": false},
-								"/pets": {"access": false},
+								"/pets": {"access": false}
 							}
 						},
 						"delete": {
