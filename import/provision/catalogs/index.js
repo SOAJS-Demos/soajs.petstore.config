@@ -46,7 +46,7 @@ var dev = [{
 					"name": "http",
 					"target": 80,
 					"isPublished": true,
-					"published": 81
+					"published": 82
 				},
 				{
 					"name": "https",
@@ -105,12 +105,12 @@ var dev = [{
 				},
 				"SOAJS_GIT_OWNER": {
 					"type": "userInput",
-					"default": "soajs",
+					"default": "SOAJS-Demos",
 					"label": "Git Repo"
 				},
 				"SOAJS_GIT_BRANCH": {
 					"type": "userInput",
-					"default": "widget",
+					"default": "demo",
 					"label": "Git Branch"
 				},
 				"SOAJS_GIT_PATH": {
@@ -128,15 +128,15 @@ var dev = [{
 				},
 				"SOAJS_CONFIG_REPO_OWNER": {
 					"type": "static",
-					"value": "soajs"
+					"value": "SOAJS-Demos"
 				},
 				"SOAJS_CONFIG_REPO_BRANCH": {
 					"type": "static",
-					"value": "widget"
+					"value": "demo"
 				},
 				"SOAJS_CONFIG_REPO_NAME": {
 					"type": "static",
-					"value": "soajs.petstore.ui"
+					"value": "soajs.petstore.config"
 				}
 			},
 			"cmd": {
