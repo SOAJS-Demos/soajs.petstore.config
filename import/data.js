@@ -145,11 +145,6 @@ function modifyDashboardDefaults(cb) {
 				onePackage.acl.dev.orders = {
 					"apisPermission": "restricted",
 					"access": ['owner'],
-					"get": {
-						"apis": {
-							"/admin/orders": {"access": ['owner']}
-						}
-					},
 					"post": {
 						"apis": {
 							"/order/:id": {"access": ['owner']}
@@ -158,6 +153,11 @@ function modifyDashboardDefaults(cb) {
 					"delete": {
 						"apis": {
 							"/order/:id": {"access": ['owner']}
+						}
+					},
+					"get": {
+						"apis": {
+							"/admin/orders": {"access": ['owner']}
 						}
 					}
 				};
