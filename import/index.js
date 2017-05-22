@@ -16,7 +16,6 @@ var config = {
 
 var ops = stdio.getopt({
 	"authenticationDatabase": {key: "a", args: 1, description: "Authentication Database (Default null)"},
-	"prefix": {key: "i", args: 1, description: "DB Prefix", mandatory: false},
 	"host": {key: "h", args: 1, description: "Host (Default dashboard-soajsdata)", mandatory: false},
 	"password": {key: "w", args: 1, description: "Github Password (Default null)", mandatory: false},
 	"port": {key: "p", args: 1, description: "Port number (Default 27017)", mandatory: false},
@@ -71,9 +70,6 @@ var lib = {
 			}
 			var dbconfig = require("./profile.js");
 			
-			if (ops.prefix) {
-				dbconfig.prefix = ops.prefix;
-			}
 			if (ops.host) {
 				dbconfig.servers[0].host = ops.host;
 			}
