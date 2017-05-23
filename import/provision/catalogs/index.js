@@ -110,7 +110,7 @@ var dev = [{
 				},
 				"SOAJS_GIT_BRANCH": {
 					"type": "userInput",
-					"default": "demo",
+					"default": "master",
 					"label": "Git Branch"
 				},
 				"SOAJS_GIT_PATH": {
@@ -132,7 +132,7 @@ var dev = [{
 				},
 				"SOAJS_CONFIG_REPO_BRANCH": {
 					"type": "static",
-					"value": "demo"
+					"value": "master"
 				},
 				"SOAJS_CONFIG_REPO_NAME": {
 					"type": "static",
