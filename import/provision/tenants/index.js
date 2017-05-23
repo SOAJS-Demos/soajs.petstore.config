@@ -91,19 +91,10 @@ var test = [{
 								"validateJoin": true
 							},
 							"mail": {
-								"from": "soajstest@soajs.org",
+								"from": "me@localhost.com",
 								"transport": {
-									"type": "smtp",
-									"options": {
-										"host": "secure.emailsrvr.com",
-										"port": "587",
-										"ignoreTLS": true,
-										"secure": false,
-										"auth": {
-											"user": "soajstest@soajs.org",
-											"pass": "p@ssw0rd"
-										}
-									}
+									"type": "sendmail",
+									"options": {}
 								}
 							}
 						}
