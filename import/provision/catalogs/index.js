@@ -4,7 +4,7 @@ var dev = [{
 	"_id": '5919bf91645d410044f137a1',
 	"name": "Dev Nginx Recipe",
 	"type": "nginx",
-	"description": "This is the nginx catalog recipe used to deploy the nginx in the dashboard environment.",
+	"description": "This is the nginx catalog recipe used to deploy the nginx in the dev environment.",
 	"recipe": {
 		"deployOptions": {
 			"image": {
@@ -157,7 +157,7 @@ var dev = [{
 	"name": "Dev Service Recipe",
 	"type": "soajs",
 	"subtype": "service",
-	"description": "This is the service catalog recipe used to deploy the core services in the dashboard environment.",
+	"description": "This is the service catalog recipe used to deploy the core services in the dev environment.",
 	"recipe": {
 		"deployOptions": {
 			"image": {
