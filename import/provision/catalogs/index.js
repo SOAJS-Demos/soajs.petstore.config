@@ -94,10 +94,6 @@ var dev = [{
 					"type": "computed",
 					"value": "$SOAJS_HA_NAME"
 				},
-				"SOAJS_GIT_DASHBOARD_BRANCH": {
-					"type": "static",
-					"value": "master"
-				},
 				"SOAJS_GIT_REPO": {
 					"type": "userInput",
 					"default": "soajs.petstore.ui",
@@ -106,7 +102,7 @@ var dev = [{
 				"SOAJS_GIT_OWNER": {
 					"type": "userInput",
 					"default": "SOAJS-Demos",
-					"label": "Git Repo"
+					"label": "Git Owner"
 				},
 				"SOAJS_GIT_BRANCH": {
 					"type": "userInput",
