@@ -223,7 +223,16 @@ function modifyDashboardDefaults(cb) {
 							if (!oneKey.config.dev) {
 								oneKey.config.dev = {};
 							} else {
-								oneKey.config.dev.order = {
+								oneKey.config.dev.commonFields = {
+									"mail": {
+										"from": "me@localhost.com",
+										"transport": {
+											"type": "sendmail",
+											"options": {}
+										}
+									}
+								};
+								oneKey.config.dev.orders = {
 									"mail": {
 										"confirm": {
 											"subject": "Order Confirmation",
