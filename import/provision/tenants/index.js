@@ -90,11 +90,13 @@ var test = [{
 								"tokenExpiryTTL": 172800000,
 								"validateJoin": true
 							},
-							"mail": {
-								"from": "me@localhost.com",
-								"transport": {
-									"type": "sendmail",
-									"options": {}
+							"commonFields": {
+								"mail": {
+									"from": "me@localhost.com",
+									"transport": {
+										"type": "sendmail",
+										"options": {}
+									}
 								}
 							}
 						}
