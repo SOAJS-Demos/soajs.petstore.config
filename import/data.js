@@ -259,29 +259,11 @@ function modifyDashboardDefaults(cb) {
 									"env": "DEV",
 									"dashboardAccess": true
 								});
-								
-								mongo.remove("dashboard_extKeys", {"env": "DEV", "code": "DBTN"}, function (error) {
-									if (error) {
-										return cb(error);
-									}
-									mongo.insert("dashboard_extKeys", {
-										"env": "DEV",
-										"code": "DBTN",
-										"key": externalKey
-									}, function (error) {
-										if (error) {
-											return cb(error);
-										}
-										
-										storeTenant(dbtnTenant);
-									});
-								});
+								storeTenant(dbtnTenant);
 							});
 						});
 					}
 				});
-				
-				
 			});
 		});
 	});
