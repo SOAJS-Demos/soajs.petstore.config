@@ -236,11 +236,11 @@ function modifyDashboardDefaults(cb) {
 									"mail": {
 										"confirm": {
 											"subject": "Order Confirmation",
-											"path": "/opt/soajs/node_modules/soajs.petstore.ui/uiModules/modules/dev/order/directives/confirmEmail.tmpl"
+											"path": "/opt/soajs/node_modules/soajs.petstore.order/templates/confirmEmail.tmpl"
 										},
 										"reject": {
 											"subject": "Order Rejected",
-											"path": "/opt/soajs/node_modules/soajs.petstore.ui/uiModules/modules/dev/order/directives/rejectEmail.tmpl"
+											"path": "/opt/soajs/node_modules/soajs.petstore.order/templates/rejectEmail.tmpl"
 										}
 									}
 								};
