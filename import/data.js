@@ -222,7 +222,6 @@ function modifyDashboardDefaults(cb) {
 						oneApplication.keys.forEach(function (oneKey) {
 							if (!oneKey.config.dev) {
 								oneKey.config.dev = {};
-							} else {
 								oneKey.config.dev.commonFields = {
 									"mail": {
 										"from": "me@localhost.com",
