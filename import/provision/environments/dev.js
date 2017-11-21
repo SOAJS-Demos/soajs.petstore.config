@@ -4,35 +4,35 @@ var dev = {
 	"sitePrefix": "petstore",
 	"apiPrefix": "petstore-api",
 	"port": 81,
+	"protocol": "http",
 	"profile": "/opt/soajs/FILES/profiles/profile.js",
 	"description": "this is the DEV environment",
 	"dbs": {
-		"clusters": {
-			"dev_cluster": {}
-		},
 		"config": {
-			"session": {
-				"cluster": "dev_cluster",
-				"name": "core_session",
-				"store": {},
-				"collection": "sessions",
-				"stringify": false,
-				"expireAfter": 1209600000
-			}
+			"prefix": ""
 		},
 		"databases": {
 			"urac": {
-				"cluster": "dev_cluster",
+				"cluster": "dash_cluster",
 				"tenantSpecific": true
 			},
 			"petStore": {
-				"cluster": "dev_cluster",
+				"cluster": "dash_cluster",
 				"tenantSpecific": false
 			},
 			"orders": {
-				"cluster": "dev_cluster",
+				"cluster": "dash_cluster",
 				"tenantSpecific": false
 			}
+		},
+		"session": {
+			"cluster": "dash_cluster",
+			"name": "core_session",
+			"store": {},
+			"collection": "sessions",
+			"stringify": false,
+			"tenantSpecific": false,
+			"expireAfter": 1209600000
 		}
 	}
 };

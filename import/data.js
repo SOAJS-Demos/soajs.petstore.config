@@ -18,7 +18,7 @@ function generateExternalKey(opts, cb) {
 		"package": opts.package
 	};
 	var config = {
-		algorithm: "aes256",
+		algorithm: opts.secret.algorithm,
 		password: opts.secret.password
 	};
 	
@@ -47,31 +47,24 @@ function cloneEnvironment(cb) {
 		if (error) {
 			return cb(error);
 		}
-		
 		var env = require('./provision/environments/dev.js');
 		env._id = mongo.ObjectId();
 		env.deployer = dashboardRecord.deployer;
-		
-		env.dbs.clusters['dev_cluster'] = dashboardRecord.dbs.clusters.dash_cluster;
-		
 		env.dbs.config = dashboardRecord.dbs.config;
-		env.dbs.config.session.cluster = "dev_cluster";
-		env.dbs.config.session.name = "dev_" + dashboardRecord.dbs.config.session.name;
-		
+		env.dbs.session.name = "dev_" + dashboardRecord.dbs.session.name;
 		env.dbs.databases.urac = dashboardRecord.dbs.databases.urac;
-		env.dbs.databases.urac.cluster = "dev_cluster";
-		
 		env.services = dashboardRecord.services;
-		
 		keySecurity = dashboardRecord.services.config.key;
+		
 		mongo.remove("environment", {"code": "DEV"}, function (error) {
 			if (error) {
 				return cb(error);
 			}
-			mongo.insert("environment", env, function (error, result) {
+			mongo.insert("environment", env, {upsert: true, multi: false, safe: true}, function (error, result) {
 				if (error) {
 					return cb(error);
 				}
+				console.log("Dev environment added");
 				return cb();
 			});
 		});
@@ -131,153 +124,158 @@ function addTenants(cb) {
 }
 
 function modifyDashboardDefaults(cb) {
-	mongo.findOne("products", {"code": "DSBRD", "locked": true}, function (error, dsbrdProduct) {
+	mongo.findOne("environment", {"code": "PORTAL"}, function (error, portalRecord) {
 		if (error) {
 			return cb(error);
 		}
-		
-		dsbrdProduct.packages.forEach(function (onePackage) {
-			if (onePackage.code === "DSBRD_OWNER") {
-				if (!onePackage.acl.dev) {
-					onePackage.acl.dev = {};
-				}
-				
-				onePackage.acl.dev.orders = {
-					"apisPermission": "restricted",
-					"access": ['owner'],
-					"post": {
-						"apis": {
-							"/order/:id": {"access": ['owner']}
-						}
-					},
-					"delete": {
-						"apis": {
-							"/order/:id": {"access": ['owner']}
-						}
-					},
-					"get": {
-						"apis": {
-							"/admin/orders": {"access": ['owner']}
-						}
-					}
-				};
-				onePackage.acl.dev.petstore = {
-					"access": ['owner'],
-					"get": {
-						"apis": {}
-					},
-					"post": {
-						"apis": {}
-					},
-					"delete": {
-						"apis": {}
-					}
-				};
-				
-				onePackage.acl.dev.urac = {
-					"access": ["owner"],
-					"apisPermission": "restricted",
-					"get": {
-						"apis": {
-							"/owner/admin/users/count": {"access": false},
-							"/owner/admin/listUsers": {"access": false},
-							"/owner/admin/changeUserStatus": {"access": false},
-							"/owner/admin/getUser": {"access": false},
-							"/owner/admin/group/list": {"access": false},
-							"/owner/admin/tokens/list": {"access": false}
-						}
-					},
-					"post": {
-						"apis": {
-							"/owner/admin/addUser": {"access": false},
-							"/owner/admin/editUser": {"access": false},
-							"/owner/admin/editUserConfig": {"access": false},
-							"/owner/admin/group/add": {"access": false},
-							"/owner/admin/group/edit": {"access": false},
-							"/owner/admin/group/addUsers": {"access": false}
-						}
-					},
-					"delete": {
-						"apis": {
-							"/owner/admin/group/delete": {"access": false},
-							"/owner/admin/tokens/delete": {"access": false}
-						}
-					}
-				};
-			}
-		});
-		
-		mongo.save("products", dsbrdProduct, function (error) {
+		mongo.findOne("products", {"code": "PRTAL"}, function (error, prtalProduct) {
 			if (error) {
 				return cb(error);
 			}
 			
-			mongo.findOne("tenants", {"code": "DBTN", "locked": true}, function (error, dbtnTenant) {
+			prtalProduct.packages.forEach(function (onePackage) {
+				if (onePackage.code === "PRTAL_USER") {
+					if (!onePackage.acl.dev) {
+						onePackage.acl.dev = {};
+					}
+					
+					onePackage.acl.dev.orders = {
+						"apisPermission": "restricted",
+						"access": true,
+						"post": {
+							"apis": {
+								"/order/:id": {"access": true}
+							}
+						},
+						"delete": {
+							"apis": {
+								"/order/:id": {"access": true}
+							}
+						},
+						"get": {
+							"apis": {
+								"/admin/orders": {"access": true}
+							}
+						}
+					};
+					onePackage.acl.dev.petstore = {
+						"access": true,
+						"get": {
+							"apis": {}
+						},
+						"post": {
+							"apis": {}
+						},
+						"delete": {
+							"apis": {}
+						}
+					};
+					
+					onePackage.acl.dev.urac = {
+						"access": true,
+						"apisPermission": "restricted",
+						"get": {
+							"apis": {
+								"/owner/admin/users/count": {"access": false},
+								"/owner/admin/listUsers": {"access": false},
+								"/owner/admin/changeUserStatus": {"access": false},
+								"/owner/admin/getUser": {"access": false},
+								"/owner/admin/group/list": {"access": false},
+								"/owner/admin/tokens/list": {"access": false}
+							}
+						},
+						"post": {
+							"apis": {
+								"/owner/admin/addUser": {"access": false},
+								"/owner/admin/editUser": {"access": false},
+								"/owner/admin/editUserConfig": {"access": false},
+								"/owner/admin/group/add": {"access": false},
+								"/owner/admin/group/edit": {"access": false},
+								"/owner/admin/group/addUsers": {"access": false}
+							}
+						},
+						"delete": {
+							"apis": {
+								"/owner/admin/group/delete": {"access": false},
+								"/owner/admin/tokens/delete": {"access": false}
+							}
+						}
+					};
+				}
+			});
+			
+			mongo.save("products", prtalProduct, function (error) {
 				if (error) {
 					return cb(error);
 				}
 				
-				dbtnTenant.applications.forEach(function (oneApplication) {
-					if (oneApplication.package == "DSBRD_OWNER") {
-						oneApplication.keys.forEach(function (oneKey) {
-							if (!oneKey.config.dev) {
-								oneKey.config.dev = {};
-								oneKey.config.dev.commonFields = {
-									"mail": {
-										"from": "me@localhost.com",
-										"transport": {
-											"type": "sendmail",
-											"options": {}
-										}
-									}
-								};
-								oneKey.config.dev.orders = {
-									"mail": {
-										"confirm": {
-											"subject": "Order Confirmation",
-											"path": "/opt/soajs/node_modules/soajs.petstore.order/templates/confirmEmail.tmpl"
-										},
-										"reject": {
-											"subject": "Order Rejected",
-											"path": "/opt/soajs/node_modules/soajs.petstore.order/templates/rejectEmail.tmpl"
-										}
-									}
-								};
-							}
-							generateExternalKey({
-								key: oneKey.key,
-								tenantId: dbtnTenant._id,
-								package: oneApplication.package,
-								secret: keySecurity
-							}, function (error, externalKey) {
-								if (error) {
-									return cb(error);
-								}
-								
-								for (var i = oneKey.extKeys.length - 1; i >= 0; i--) {
-									if (oneKey.extKeys[i].env === 'DEV') {
-										oneKey.extKeys.splice(i, 1);
-									}
-								}
-								
-								oneKey.extKeys.push({
-									"extKey": externalKey,
-									"device": {},
-									"geo": {},
-									"env": "DEV",
-									"dashboardAccess": true
-								});
-								storeTenant(dbtnTenant);
-							});
-						});
+				mongo.findOne("tenants", {"code": "PRTL"}, function (error, prtlTenant) {
+					if (error) {
+						return cb(error);
 					}
+					
+					prtlTenant.applications.forEach(function (oneApplication) {
+						if (oneApplication.package == "PRTAL_USER") {
+							oneApplication.keys.forEach(function (oneKey) {
+								if (!oneKey.config.dev) {
+									oneKey.config.dev = {};
+									oneKey.config.dev.commonFields = {
+										"mail": {
+											"from": "me@localhost.com",
+											"transport": {
+												"type": "sendmail",
+												"options": {}
+											}
+										}
+									};
+									oneKey.config.dev.orders = {
+										"mail": {
+											"confirm": {
+												"subject": "Order Confirmation",
+												"path": "/opt/soajs/node_modules/soajs.petstore.order/templates/confirmEmail.tmpl"
+											},
+											"reject": {
+												"subject": "Order Rejected",
+												"path": "/opt/soajs/node_modules/soajs.petstore.order/templates/rejectEmail.tmpl"
+											}
+										}
+									};
+								}
+								generateExternalKey({
+									key: oneKey.key,
+									tenantId: prtlTenant._id.toString(),
+									package: oneApplication.package,
+									secret: keySecurity
+								}, function (error, externalKey) {
+									if (error) {
+										return cb(error);
+									}
+									
+									for (var i = oneKey.extKeys.length - 1; i >= 0; i--) {
+										if (oneKey.extKeys[i].env === 'DEV') {
+											oneKey.extKeys.splice(i, 1);
+										}
+									}
+									
+									oneKey.extKeys.push({
+										"extKey": externalKey,
+										"device": {},
+										"geo": {},
+										"env": "DEV",
+										"dashboardAccess": true
+									});
+									storeTenant(prtlTenant);
+								});
+							});
+						}
+					});
 				});
 			});
 		});
 	});
 	
-	function storeTenant(dbtnTenant) {
-		mongo.save("tenants", dbtnTenant, cb);
+	function storeTenant(prtlTenant) {
+		mongo.save("tenants", prtlTenant, cb);
 	}
 }
 
