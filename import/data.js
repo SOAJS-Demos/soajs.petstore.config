@@ -35,7 +35,7 @@ function generateExternalKey(opts, cb) {
 				return cb(null, extKey);
 			}
 			else {
-				return cb(new Error("Generated Key is invalid."))
+				return cb(new Error("Generated Key is invalid."));
 			}
 		});
 	});
